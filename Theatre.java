@@ -1,107 +1,223 @@
-class Theatres {
-    //// First let's create the three classes we  have ////
-    private final int[][] firstClass_Seats; /// first class size
-    private final int firstclass_price ;    /// first class price
+package Theatre_system;
 
-    private final int[][] secondClass_Seats; /// second class size
-    private final int secondclass_price ;    /// second class price
+import java.util.Scanner;
+public class theatre {
+    Scanner input = new Scanner(System.in);
+    private final static int FirstClassCost=50;//
+    private final static int SecondClassCost=15;//     The fixed cost for each class
+    private final static int ThirdClassCost=10;//
 
-    private final int[][] thirdClass_Seats; /// third class size
-    private final int thirdclass_price ;    /// third class price
+    private final static int FirstClassSeats=20;//
+    private final static int SecondClassSeats=40;//     The fixed seat for each class
+    private final static int ThirdClassSeats=50; //
 
-    public int total_price = 0; /// total price of reserved seats
+    private Character[][] FirstClass2dArr=new Character[4][5]; //
+    private Character[][] SecondClass2dArr=new Character[8][5]; //  The fixed size of the 2D arrays classes
+    private Character[][] ThirdClass2dArr=new Character[10][5]; //
 
-    // Constructor 
-    public Theatres(int[][] frstClass_Seats , int frstclass_price, int[][] scndClass_Seats,
-                     int scndclass_price, int[][] thrdClass_Seats, int thrdclass_price) {
+    int FinalPayment=0,Row=0,Column=0,UserInputClass=0,UserInputID=0;
 
-        firstClass_Seats = new int [4][5] ;
-        firstclass_price = 50;
 
-        secondClass_Seats = new int[8][5] ;
-        secondclass_price = 15;
-
-        thirdClass_Seats = new int[10][5] ;
-        thirdclass_price = 10;
-
-    }
-
-    //// Intiate Getters for each class ////
-    
-    public int[][] getFirstClass_Seats() {
-        return firstClass_Seats;
-    }
-    public int getFirstclass_price() {
-        return firstclass_price;
-    }
-
-    public int[][] getSecondClass_Seats() {
-        return secondClass_Seats;
-    }
-    public int getSecondclass_price() {
-        return secondclass_price;
-    }
-
-    public int[][] getThirdClass_Seats() {
-        return thirdClass_Seats;
-    }
-    public int getThirdclass_price() {
-        return thirdclass_price;
-    }
-
-    public String cancel_reservation(int classnumber, int row, int col) {
-        switch (classnumber) {
-            /// Each index should be labelled with 1 or 0 ///
-            case 1:
-                if (firstClass_Seats[row][col] == 1) // Check if the seat is reserved
-                {
-                    firstClass_Seats[row][col] = 0; /// Now,Seat is empty
-
-                    total_price -= firstclass_price; // remove the seat price from total price
-                    System.out.println("Seat cancelled successfully");
-                    System.out.println("+ 50 L.E");
-
-                    return "total_price = " + total_price + " L.E";
-
-                } else {
-
-                    return "No reservation found at the specified seat.";
-
-                }
-
-            case 2:
-                if (firstClass_Seats[row][col] == 1) 
-                {
-                    firstClass_Seats[row][col] = 0; 
-
-                    total_price -= firstclass_price; 
-                    System.out.println("Seat cancelled successfully");
-                    System.out.println("+ 15 L.E");
-
-                    return "total_price = " + total_price + " L.E";
-                } else {
-                    return "No reservation found at the specified seat.";
-
-                }
-
-            case 3:
-                if (firstClass_Seats[row][col] == 1) 
-                {
-                    firstClass_Seats[row][col] = 0; 
-
-                    total_price -= firstclass_price; 
-                    System.out.println("Seat cancelled successfully");
-                    System.out.println("+ 10 L.E");
-
-                    return "total_price = " + total_price + " L.E";
-                } else {
-                    return "No reservation found at the specified seat.";
-
-                }
-
+    public void InitializeFirstClass2dArr() {   //  initialize all the class values with O
+        for(int row=0;row<4;row++){
+            for(int column=0;column<5;column++){
+                FirstClass2dArr[row][column]='O';
+            }
         }
-        
-        return " Invalid choices !! ";
+    }
+
+    public void InitializeSecondClass2dArr() {  //  initialize all the class values with O
+        for(int row=0;row<8;row++){
+            for(int column=0;column<5;column++){
+                SecondClass2dArr[row][column]='O';
+            }
+        }
+    }
+
+    public void InitializeThirdClass2dArr() {  //  initialize all the class values with O
+        for(int row=0;row<10;row++){
+            for(int column=0;column<5;column++){
+                ThirdClass2dArr[row][column]='O';
+            }
+        }
+    }
+
+
+
+    // for testing
+    public void print1(){
+        System.out.println();
+        for(int row=0;row<4;row++){
+            for(int column=0;column<5;column++){
+                System.out.print(FirstClass2dArr[row][column]+"\t");
+            }
+            System.out.println();
+        }
+    }
+    // for testing
+    public void print2(){
+        for(int row=0;row<8;row++){
+            for(int column=0;column<5;column++){
+                System.out.print(SecondClass2dArr[row][column]+"\t");
+            }
+            System.out.println();
+        }
+    }
+    // for testing
+    public void print3(){
+        for(int row=0;row<10;row++){
+            for(int column=0;column<5;column++){
+                System.out.print(ThirdClass2dArr[row][column]+"\t");
+            }
+            System.out.println();
+        }
+    }
+
+
+    public void indexRowColumn(){   // the users enters the ID and it translate it into Row and Columns
+        int storage=0, counts=-1;
+        System.out.print("Enter the ID: ");
+        UserInputID=input.nextInt();
+        storage=UserInputID;
+        if(storage%5==0){
+            Row=(storage/5)-1;
+            Column=4;
+        }else{
+            Column=(storage%5)-1;
+            while(storage>0){
+                storage-=5;
+                counts++;
+            }
+            Row=counts;
+        }
+    }
+    public void TakeClassInput(){    // taking user class input
+        System.out.print("Enter First Class: ");
+        UserInputClass=input.nextInt();
+    }
+
+    public void Reservation(){
+        TakeClassInput();
+        switch(UserInputClass){
+            case 1:
+                try{
+                    indexRowColumn(); // gets the row column
+                    if(FirstClass2dArr[Row][Column]=='O'){   // check if its empty
+                        FirstClass2dArr[Row][Column]='X'; // fill it with X to make it resereved
+                        FinalPayment+=FirstClassCost;
+                    }
+                    else{
+                        throw new Exception("Error: this seat is already taken!"); // if the users enters ID already taken
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print1();
+                break;
+            case 2:
+                try{
+                    indexRowColumn();
+                    if(SecondClass2dArr[Row][Column]=='O'){
+                        SecondClass2dArr[Row][Column]='X';
+                        FinalPayment+=SecondClassCost;
+                    }
+                    else{
+                        throw new Exception("Error: this seat is already taken!"); // if the users enters ID already taken
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print2();
+                break;
+            case 3:
+                try{
+                    indexRowColumn();
+                    if(ThirdClass2dArr[Row][Column]=='O'){
+                        ThirdClass2dArr[Row][Column]='X';
+                        FinalPayment+=ThirdClassCost;
+                    }
+                    else{
+                        throw new Exception("Error: this seat is already taken!\n"); // if the users enters ID already taken
+
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print3();
+                break;
+        }
+    }
+
+    public void CancelReservation() {
+        TakeClassInput();
+        switch (UserInputClass) {
+            /// Each index should be labelled with x or O ///
+            case 1:
+                try{
+                    indexRowColumn();
+                    if (FirstClass2dArr[Row][Column] == 'X') // Check if the seat is reserved
+                    {
+                        FirstClass2dArr[Row][Column] = 'O'; /// Now,Seat is empty
+                        FinalPayment -= FirstClassCost; // remove the seat price from total price
+
+                    }
+                    else {
+                        throw new Exception("Error: no reservation found at the specified seat."); // if the users enters ID already taken
+
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print1();
+                break ;
+            case 2:
+                try{
+                    indexRowColumn();
+                    if (SecondClass2dArr[Row][Column] == 'X')
+                    {
+                            SecondClass2dArr[Row][Column] = 'O';
+                            FinalPayment -= SecondClassCost;
+                    } else {
+                        throw new Exception( "Error: no reservation found at the specified seat."); // if the users enters ID already taken
+
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print2();
+                break ;
+            case 3:
+                try{
+                    indexRowColumn();
+                        if (ThirdClass2dArr[Row][Column] == 'X')
+                    {
+                        ThirdClass2dArr[Row][Column] = 'O';
+                        FinalPayment -= ThirdClassCost;
+
+
+                    } else {
+                        throw new Exception("Error: no reservation found at the specified seat."); // if the users enters ID already taken
+                    }
+                }catch(Exception e){
+                    System.out.print(e.getMessage());
+                }
+                print3();
+                break ;
+        }
+
+    }
+
+    public void ResetTheatreReservation(){ // it returns all the classes to its original form
+        InitializeFirstClass2dArr();
+        InitializeSecondClass2dArr();
+        InitializeThirdClass2dArr();
+        print1();
+        System.out.println("------------------------------------------------------");
+        print2();
+        System.out.println("------------------------------------------------------");
+        print3();
+        System.out.println("-----------------------------------------------------");
+        FinalPayment=0; // resets the payment too
     }
 
     ///// Function Exit ////
@@ -110,23 +226,5 @@ class Theatres {
     }
 }
 
-//// This main classs is for testing and might be removed later ////
-public class Theatre {
-    public static void main(String[] args) {
-       
 
-        int[][] firstClassSeats = new int[4][5];
-        int firstClassPrice = 50;
-        int[][] secondClassSeats = new int[8][5];
-        int secondClassPrice = 15;
-        int[][] thirdClassSeats = new int[10][5];
-        int thirdClassPrice = 10;
 
-        Theatres theatres = new Theatres(firstClassSeats, firstClassPrice, secondClassSeats, secondClassPrice, thirdClassSeats, thirdClassPrice);
-        
-        String result = theatres.cancel_reservation(1, 2, 3); // Cancel reservation for class 1 at row 2, column 3
-        System.out.println(result);
-
-        theatres.Exit();
-    }
-}
