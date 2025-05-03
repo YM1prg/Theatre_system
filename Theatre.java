@@ -26,36 +26,16 @@ class Theatres {
 
     }
 
-    //// Intiate Getters for each class ////
     
-    public int[][] getFirstClass_Seats() {
-        return firstClass_Seats;
-    }
-    public int getFirstclass_price() {
-        return firstclass_price;
-    }
-
-    public int[][] getSecondClass_Seats() {
-        return secondClass_Seats;
-    }
-    public int getSecondclass_price() {
-        return secondclass_price;
-    }
-
-    public int[][] getThirdClass_Seats() {
-        return thirdClass_Seats;
-    }
-    public int getThirdclass_price() {
-        return thirdclass_price;
-    }
-
     public String cancel_reservation(int classnumber, int row, int col) {
         switch (classnumber) {
-            /// Each index should be labelled with 1 or 0 ///
+            /// Each index should be labelled with x or O ///
             case 1:
-                if (firstClass_Seats[row][col] == 1) // Check if the seat is reserved
+            try{
+                indexRowColumn();
+                if (firstClass_Seats[row][col] == 'X') // Check if the seat is reserved
                 {
-                    firstClass_Seats[row][col] = 0; /// Now,Seat is empty
+                    firstClass_Seats[row][col] = 'O'; /// Now,Seat is empty
 
                     total_price -= firstclass_price; // remove the seat price from total price
                     System.out.println("Seat cancelled successfully");
@@ -63,16 +43,22 @@ class Theatres {
 
                     return "total_price = " + total_price + " L.E";
 
-                } else {
+                } 
+                else {
 
-                    return "No reservation found at the specified seat.";
+                    throw new  Exception("No reservation found at the specified seat.");
 
-                }
+                }}catch(Exception e){
+                    System.out.print(e.getMessage());
+
+                }break ;
 
             case 2:
-                if (firstClass_Seats[row][col] == 1) 
+            try{
+                indexRowColumn();
+                if (firstClass_Seats[row][col] == 'X') 
                 {
-                    firstClass_Seats[row][col] = 0; 
+                    firstClass_Seats[row][col] = 'O'; 
 
                     total_price -= firstclass_price; 
                     System.out.println("Seat cancelled successfully");
@@ -80,14 +66,18 @@ class Theatres {
 
                     return "total_price = " + total_price + " L.E";
                 } else {
-                    return "No reservation found at the specified seat.";
+                    throw new Exception( "No reservation found at the specified seat.");
 
-                }
+                }}catch(Exception e){
+                    System.out.print(e.getMessage());
+                }break ;
 
             case 3:
-                if (firstClass_Seats[row][col] == 1) 
+            try{
+                indexRowColumn();
+                if (firstClass_Seats[row][col] == 'X') 
                 {
-                    firstClass_Seats[row][col] = 0; 
+                    firstClass_Seats[row][col] = 'O'; 
 
                     total_price -= firstclass_price; 
                     System.out.println("Seat cancelled successfully");
@@ -95,9 +85,11 @@ class Theatres {
 
                     return "total_price = " + total_price + " L.E";
                 } else {
-                    return "No reservation found at the specified seat.";
+                    throw new Exception("No reservation found at the specified seat.");
 
-                }
+                }}catch(Exception e){
+                    System.out.print(e.getMessage());
+                }break ;
 
         }
         
