@@ -112,6 +112,7 @@ class TheatreGUIEditor extends JFrame {
                 JButton seatButton = new JButton();
                 final int seatId = row * 5 + col + 1;
                 seatButton.setText(Integer.toString(seatId));
+                seatButton.setText("O");
                 seatButton.setFont(new Font("Arial", Font.BOLD, 20));
                 seatButton.setFocusPainted(true);
                 seatButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -120,9 +121,11 @@ class TheatreGUIEditor extends JFrame {
                 if (buttonsArray[row][col].getText().equals("X")) {
                     seatButton.setBackground(SECONDARY_COLOR);
                     seatButton.setForeground(Color.WHITE);
+                    seatButton.setText("X");
                 } else {
                     seatButton.setBackground(PRIMARY_COLOR);
                     seatButton.setForeground(Color.WHITE);
+                    seatButton.setText("O");
                 }
 
                 if (mode == 0) { // Register mode
