@@ -21,7 +21,7 @@ public class Theatre {
     public JButton[][] ThirdClass2dArr = new JButton[10][5];
 
     int  Row = 0, Column = 0, countForOffer=0;
-    double FinalPayment=0,discout=0.8;
+    double FinalPayment=0,discount=0.8;
 
     public void InitializeFirstClass2dArr() { // initialize all the class values with O
         for (int row = 0; row < 4; row++) {
@@ -211,6 +211,6 @@ public class Theatre {
     }
 
     public double OfferFeature(){
-        return discout;
+        return discount;
     }
 }
