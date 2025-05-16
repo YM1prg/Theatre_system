@@ -20,7 +20,8 @@ public class Theatre {
     public JButton[][] SecondClass2dArr = new JButton[8][5]; //
     public JButton[][] ThirdClass2dArr = new JButton[10][5];
 
-    int FinalPayment = 0, Row = 0, Column = 0;
+    int  Row = 0, Column = 0, countForOffer=0;
+    double FinalPayment=0,discout=0.8;
 
     public void InitializeFirstClass2dArr() { // initialize all the class values with O
         for (int row = 0; row < 4; row++) {
@@ -60,11 +61,12 @@ public class Theatre {
             Column = 4;
         } else {
             Column = (storage % 5) - 1;
-            while (storage > 0) {
-                storage -= 5;
-                counts++;
-            }
-            Row = counts;
+//            while (storage > 0) {
+//                storage -= 5;
+//                counts++;
+//            }
+//            Row = counts;
+            Row= storage/5;
         }
     }
 
@@ -76,6 +78,7 @@ public class Theatre {
                     FirstClass2dArr[Row][Column].setText("X"); // fill it with X to make it resereved
                     FirstClass2dArr[Row][Column].setName("X"); // also update name for consistency
                     FinalPayment += FirstClassCost;
+                    countForOffer++;
                 } else {
                     throw new Exception("Error: this seat is already taken!"); // if the users enters ID already taken
                 }
@@ -96,6 +99,7 @@ public class Theatre {
                     ThirdClass2dArr[Row][Column].setText("X");
                     ThirdClass2dArr[Row][Column].setName("X");
                     FinalPayment += ThirdClassCost;
+
                 } else {
                     throw new Exception("Error: this seat is already taken!\n"); // if the users enters ID already taken
 
@@ -114,6 +118,7 @@ public class Theatre {
                     FirstClass2dArr[Row][Column].setText("O"); /// Now,Seat is empty
                     FirstClass2dArr[Row][Column].setName("O"); // also update name for consistency
                     FinalPayment -= FirstClassCost; // remove the seat price from total price
+                    countForOffer--;
 
                 } else {
                     throw new Exception("Error: no reservation found at the specified seat."); // if the users enters ID
@@ -127,6 +132,7 @@ public class Theatre {
                     SecondClass2dArr[Row][Column].setText("O");
                     SecondClass2dArr[Row][Column].setName("O");
                     FinalPayment -= SecondClassCost;
+
                 } else {
                     throw new Exception("Error: no reservation found at the specified seat."); // if the users enters ID
                                                                                                // already taken
@@ -139,7 +145,6 @@ public class Theatre {
                     ThirdClass2dArr[Row][Column].setText("O");
                     ThirdClass2dArr[Row][Column].setName("O");
                     FinalPayment -= ThirdClassCost;
-
                 } else {
                     throw new Exception("Error: no reservation found at the specified seat."); // if the users enters ID
                                                                                                // already taken
@@ -152,6 +157,7 @@ public class Theatre {
         InitializeFirstClass2dArr();
         InitializeSecondClass2dArr();
         InitializeThirdClass2dArr();
+        countForOffer=0;
         FinalPayment = 0; // resets the payment too
     }
 
@@ -202,5 +208,9 @@ public class Theatre {
             case "Third Class" -> arrayThreeToString();
             default -> "";
         };
+    }
+
+    public double OfferFeature(){
+        return discout;
     }
 }

@@ -326,11 +326,19 @@ class TheatreGUIEditor extends JFrame {
         exitBT.addActionListener(e -> mainTheatre.Exit());
 
         finalizeBT.addActionListener(e -> {
-            showStyledMessage("Your total is $" + mainTheatre.FinalPayment);
+            if(mainTheatre.countForOffer>=5){
+                showStyledMessage("Your total after 20% discount is $" + mainTheatre.FinalPayment*mainTheatre.OfferFeature());
+            }
+            else{
+            showStyledMessage("Your total is $" + mainTheatre.FinalPayment);}
         });
 
         finalizeBT2.addActionListener(e -> {
-            showStyledMessage("Your total is $" + mainTheatre.FinalPayment);
+            if(mainTheatre.countForOffer>=5){
+                showStyledMessage("Your total after 20% discount is $" + mainTheatre.FinalPayment*mainTheatre.OfferFeature());
+            }
+            else{
+            showStyledMessage("Your total is $" + mainTheatre.FinalPayment);}
         });
 
         regBT.addActionListener(e -> {
